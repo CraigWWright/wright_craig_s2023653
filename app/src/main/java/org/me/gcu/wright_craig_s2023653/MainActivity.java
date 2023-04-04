@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
     private String result;
     private String url1="";
     private String urlSource="http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
+    LinkedList <EarthquakeClass> alist = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
             result = result.replaceAll("geo:", "");
 
             EarthquakeClass earthquake = null;
-            LinkedList <EarthquakeClass> alist = null;
+            //LinkedList <EarthquakeClass> alist = null;
             try
             {
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -247,11 +248,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
             // Probably not the best way to update TextView
             // but we are just getting started !
 
+
             MainActivity.this.runOnUiThread(new Runnable()
             {
                 public void run() {
                     Log.d("UI thread", "I am the UI thread");
-                    rawDataDisplay.setText(result);
+                    //rawDataDisplay.setText(result);
+                    rawDataDisplay.setText("");
+                    for (int i=0; i < alist.size(); i++) {
+
+                        rawDataDisplay.append(alist.get(i).toString());
+                    }
                 }
             });
         }
