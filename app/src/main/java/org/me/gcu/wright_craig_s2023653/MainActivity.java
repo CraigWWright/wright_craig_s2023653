@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                 {
                     if (lineCount>=13) {
                         result = result + inputLine;
-                        Log.e("MyTag", inputLine);
+                        //Log.e("TEST", inputLine);
                     }
                     lineCount++;
 
@@ -130,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
             // Now that you have the xml data you can parse it
             //
 
+            result = result.substring(4);
+            result = result.replaceAll("geo:", "");
+
             EarthquakeClass earthquake = null;
             LinkedList <EarthquakeClass> alist = null;
             try
@@ -138,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                 factory.setNamespaceAware(true);
                 XmlPullParser xpp = factory.newPullParser();
                 xpp.setInput( new StringReader( result ));
+                alist = new LinkedList<EarthquakeClass>();
                 int eventType = xpp.getEventType();
                 while (eventType != XmlPullParser.END_DOCUMENT)
                 {
@@ -145,6 +149,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                     //Found a start tag
                     if(eventType == XmlPullParser.START_TAG)
                     {
+                        /*if (xpp.getName().equalsIgnoreCase("channel"))
+                        {
+                            //alist  = new LinkedList<WidgetClass>();
+                            alist = new LinkedList<EarthquakeClass>();
+                        }
+                        */
+
                         //Check which tag we have
                         if (xpp.getName().equalsIgnoreCase("item"))
                         {
@@ -187,14 +198,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                                                 earthquake.setCategory(temp);
                                             }
                                             else
-                                                if (xpp.getName().equalsIgnoreCase("geo:lat"))
+                                                if (xpp.getName().equalsIgnoreCase("lat"))
                                                 {
                                                     String temp = xpp.nextText();
                                                     Log.e("MyTag", "Latitude is " + temp);
                                                     earthquake.setLatitude(temp);
                                                 }
                                                 else
-                                                    if (xpp.getName().equalsIgnoreCase("geo:long"))
+                                                    if (xpp.getName().equalsIgnoreCase("long"))
                                                     {
                                                         String temp = xpp.nextText();
                                                         Log.e("MyTag", "Longitude is " + temp);
@@ -209,6 +220,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                                 Log.e("MyTag", "Earthquake is " + earthquake.toString());
                                 alist.add(earthquake);
                             }
+                            else
+                                if (xpp.getName().equalsIgnoreCase("channel"))
+                                {
+                                    int size;
+                                    size = alist.size();
+                                    Log.e("MyTag", "earthquake collection size is " + size);
+                                }
                         }
 
                         eventType = xpp.next();
@@ -221,6 +239,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
             {
                 Log.e("MyTag","IO error during parsing");
             }
+
+            Log.e("MyTag","End document");
 
 
             // Now update the TextView to display raw XML data
