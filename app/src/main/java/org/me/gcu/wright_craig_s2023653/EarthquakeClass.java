@@ -57,6 +57,9 @@ public class EarthquakeClass {
 
     public void setLongitude(String aLongitude) {longitude = aLongitude;}
 
+    public String coreDetails(){
+        return title;
+    }
     public String toString(){
         String temp;
 
