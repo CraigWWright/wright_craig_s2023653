@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                 aurl = new URL(url);
                 yc = aurl.openConnection();
                 in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+                int lineCount =0;
                 //
                 // Throw away the first 2 header lines before parsing
                 //
@@ -111,8 +112,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                 //
                 while ((inputLine = in.readLine()) != null)
                 {
-                    result = result + inputLine;
-                    Log.e("MyTag",inputLine);
+                    if (lineCount>=13) {
+                        result = result + inputLine;
+                        Log.e("MyTag", inputLine);
+                    }
+                    lineCount++;
 
                 }
                 in.close();
