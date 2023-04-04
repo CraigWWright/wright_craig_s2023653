@@ -256,8 +256,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                     //rawDataDisplay.setText(result);
                     rawDataDisplay.setText("");
                     for (int i=0; i < alist.size(); i++) {
-
-                        rawDataDisplay.append(alist.get(i).toString());
+                        rawDataDisplay.append("\n" + alist.get(i).toString() + "\n");
                     }
                 }
             });
