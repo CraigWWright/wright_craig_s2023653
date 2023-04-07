@@ -17,15 +17,18 @@ package org.me.gcu.wright_craig_s2023653;
 
 //import android.support.v7.app.AppCompatActivity;
 //import android.support.app.AppCompatActivity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -43,7 +46,7 @@ import java.util.LinkedList;
 
 //import gcu.mpd.bgsdatastarter.R;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener
+public class MainActivity extends AppCompatActivity implements OnClickListener, AdapterView.OnItemClickListener
 {
     private TextView rawDataDisplay;
     private Button startButton;
@@ -65,8 +68,32 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
         startButton.setOnClickListener(this);
 
         // More Code goes here
+
+        //ArrayAdapter<EarthquakeClass> adapter = new ArrayAdapter<EarthquakeClass>(
+                //MainActivity.this, android.R.layout.simple_list_item_1, alist);
+
         listView = (ListView) findViewById(R.id.list);
+        listView.setOnItemClickListener(this);
+        //listView.setAdapter(adapter);
         alist = new LinkedList<EarthquakeClass>();
+    }
+
+    public void onItemClick(AdapterView<?> parenr, View view, int position, long id) {
+        for (int i = 0; i < alist.size(); i++) {
+            if (position == i) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(alist.get(i).detailedView())
+                        .setTitle("Earthquake Details")
+                        .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        }
     }
 
     public void onClick(View aview)
@@ -255,16 +282,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
             MainActivity.this.runOnUiThread(new Runnable()
             {
                 public void run() {
-                    /*Log.d("UI thread", "I am the UI thread");
+                    Log.d("UI thread", "I am the UI thread");
                     //rawDataDisplay.setText(result);
-                    rawDataDisplay.setText("");
-                    for (int i=0; i < alist.size(); i++) {
-                        rawDataDisplay.append("\n" + alist.get(i).coreDetails() + "\n");
-                    }
 
-                     */
                     ArrayAdapter<EarthquakeClass> adapter = new ArrayAdapter<EarthquakeClass>(
-                            MainActivity.this, android.R.layout.simple_list_item_1, alist);
+                    MainActivity.this, android.R.layout.simple_list_item_1, alist);
                     listView.setAdapter(adapter);
                 }
             });

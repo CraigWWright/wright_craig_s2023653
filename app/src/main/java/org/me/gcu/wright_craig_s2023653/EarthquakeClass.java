@@ -62,4 +62,12 @@ public class EarthquakeClass {
         return title;
     }
 
+    public String detailedView() {
+        String temp = "";
+
+        //temp = title + " " + description + " " + link + " " + pubDate  + " " + category + " " + latitude + " " + longitude;
+        temp = "Title: " + title  + "\n" + "Description: " + description  + "\n" + "Link: " + link  + "\n" + "Date Published: " + pubDate  + "\n" + "Category: " + category  + "\n" + "Latitude: " + latitude  + "\n" + "Longitude: " + longitude;
+
+        return temp;
+    }
 }
