@@ -3,9 +3,9 @@
     <LinearLayout
         android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
         <TextView android:id="@+id/salutation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:text="Welcome to Mobile Platform Development"/>
-        <Button android:id="@+id/startButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Press to get data"/>
+        <Button android:id="@+id/startButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Press to show earthquakes"/>
         <TextView android:id="@+id/acknowledgement" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:text="Contains British Geological Survey materials ©NERC 2019"/>
-        <!-- <TextView android:id="@+id/rawDataDisplay" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:text="Raw Data is Displayed here"/> -->
+        <!--<TextView android:id="@+id/rawDataDisplay" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:text="Raw Data is Displayed here"/> -->
         <ListView
             android:id="@+id/list"
             android:layout_width="wrap_content"
@@ -48,4 +48,5 @@
             <Button android:id="@+id/deepestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Deepest" android:layout_marginStart="4dp" android:layout_marginEnd="8dp"/>
         </LinearLayout>
         </LinearLayout>
+
 </ScrollView>
