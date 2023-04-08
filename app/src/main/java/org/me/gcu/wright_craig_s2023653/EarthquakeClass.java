@@ -1,10 +1,14 @@
 package org.me.gcu.wright_craig_s2023653;
 
+import java.util.Date;
+
 public class EarthquakeClass {
     private String title;
     private String description;
     private String link;
     private String pubDate;
+    private String formattedDate;
+
     private String category;
     private String latitude;
     private String longitude;
@@ -14,16 +18,18 @@ public class EarthquakeClass {
         description = "";
         link = "";
         pubDate = "";
+        formattedDate = "";
         category = "";
         latitude = "";
         longitude = "";
     }
 
-    public EarthquakeClass(String aTitle, String aDescription, String aLink, String aPubDate, String aCategory, String aLatitude, String aLongitude) {
+    public EarthquakeClass(String aTitle, String aDescription, String aLink, String aPubDate, String aDate, String aCategory, String aLatitude, String aLongitude) {
         title = aTitle;
         description = aDescription;
         link = aLink;
         pubDate = aPubDate;
+        formattedDate = aDate;
         category = aCategory;
         latitude = aLatitude;
         longitude = aLongitude;
@@ -44,6 +50,10 @@ public class EarthquakeClass {
     public String getPubDate() {return pubDate;}
 
     public void setPubDate(String aPubDate) {pubDate = aPubDate;}
+
+    public String getDate() {return formattedDate;}
+
+    public void setDate(String aDate) {formattedDate = aDate;}
 
     public String getCategory() {return category;}
 

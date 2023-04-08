@@ -20,11 +20,13 @@ package org.me.gcu.wright_craig_s2023653;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,7 +44,11 @@ import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.Locale;
 
 //import gcu.mpd.bgsdatastarter.R;
 
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private String urlSource="http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
     LinkedList <EarthquakeClass> alist;
     private ListView listView;
+    private Button searchDateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,14 +75,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         startButton.setOnClickListener(this);
 
         // More Code goes here
-
-        //ArrayAdapter<EarthquakeClass> adapter = new ArrayAdapter<EarthquakeClass>(
-                //MainActivity.this, android.R.layout.simple_list_item_1, alist);
-
         listView = (ListView) findViewById(R.id.list);
         listView.setOnItemClickListener(this);
-        //listView.setAdapter(adapter);
         alist = new LinkedList<EarthquakeClass>();
+
+        searchDateButton = (Button) findViewById(R.id.searchDateButton);
+        searchDateButton.setOnClickListener(this);
+
     }
 
     public void onItemClick(AdapterView<?> parenr, View view, int position, long id) {
@@ -98,7 +104,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     public void onClick(View aview)
     {
-        startProgress();
+        if (aview==startButton) {
+            startProgress();
+        }
+        if (aview==searchDateButton) {
+            searchDate();
+        }
     }
 
     public void startProgress()
@@ -220,6 +231,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                             String temp = xpp.nextText();
                                             Log.e("MyTag", "PubDate is " + temp);
                                             earthquake.setPubDate(temp);
+
+                                            SimpleDateFormat inputFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.UK);
+                                            SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+
+                                            try {
+                                                Date date = inputFormat.parse(temp);
+                                                String formattedDate = outputFormat.format(date);
+                                                earthquake.setDate(formattedDate);
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                            Log.e("MyTag", earthquake.getDate());
+
                                         }
                                         else
                                             if (xpp.getName().equalsIgnoreCase("category"))
@@ -291,6 +315,58 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 }
             });
         }
+
+    }
+
+    public void searchDate() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Search");
+
+        // Inflate the layout for the dialog box
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_search_date, null);
+        builder.setView(dialogView);
+
+        EditText search = dialogView.findViewById(R.id.edit_text_date);
+        builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String query = search.getText().toString();
+                String output ="";
+                int counter =  0;
+                for (int j=0; j < alist.size(); j++) {
+                    if (query.equals(alist.get(j).getDate())) {
+                        output = output + alist.get(j).toString() + " \n \n";
+                        counter++;
+                    }
+                }
+                if (counter==0) {
+                    output = "There was no earthquakes on this day";
+                }
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                builder1.setTitle("Search results")
+                        .setMessage(output)
+                        .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                AlertDialog dialog1 = builder1.create();
+                dialog1.show();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle cancel button click
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
     }
 
