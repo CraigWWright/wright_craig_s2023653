@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     LinkedList <EarthquakeClass> alist;
     private ListView listView;
     private Button searchDateButton;
+    private Button largestButton;
+    private Button deepestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -82,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         searchDateButton = (Button) findViewById(R.id.searchDateButton);
         searchDateButton.setOnClickListener(this);
 
+        largestButton = (Button) findViewById(R.id.largestButton);
+        largestButton.setOnClickListener(this);
+
+        deepestButton = (Button) findViewById(R.id.deepestButton);
+        deepestButton.setOnClickListener(this);
     }
 
     public void onItemClick(AdapterView<?> parenr, View view, int position, long id) {
@@ -109,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
         if (aview==searchDateButton) {
             searchDate();
+        }
+        if (aview==largestButton) {
+            findLargestEarthquake();
+        }
+        if (aview==deepestButton) {
+            findDeepestEarthquake();
         }
     }
 
@@ -217,6 +230,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                     String temp = xpp.nextText();
                                     Log.e("MyTag", "Description is " + temp);
                                     earthquake.setDescription(temp);
+                                    String[] split = temp.split("; ");
+                                    earthquake.setLocation(split[1].substring(10));
+                                    String tempDepth = split[3];
+                                    tempDepth = tempDepth.substring(7);
+                                    tempDepth = tempDepth.replace(" km ", "");
+                                    earthquake.setDepth(Integer.parseInt(tempDepth));
+                                    String tempMagnitude = split[4];
+                                    tempMagnitude = tempMagnitude.substring(11);
+                                    earthquake.setMagnitude(Double.parseDouble(tempMagnitude));
                                 }
                                 else
                                     if (xpp.getName().equalsIgnoreCase("link"))
@@ -368,6 +390,50 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         AlertDialog dialog = builder.create();
         dialog.show();
 
+    }
+
+    public void findLargestEarthquake() {
+        double temp = 0;
+        String message = "";
+        for (int i=0; i < alist.size(); i++) {
+            if (alist.get(i).getMagnitude() > temp) {
+                temp = alist.get(i).getMagnitude();
+                message = alist.get(i).getLocation() + "on " + alist.get(i).getDate();
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Largest Earthquake")
+                .setMessage("The largest earthquake was one of Magnitude: " + temp + " at " + message)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void findDeepestEarthquake() {
+        int temp = 0;
+        String message = "";
+        for (int i=0; i < alist.size(); i++) {
+            if (alist.get(i).getMagnitude() > temp) {
+                temp = alist.get(i).getDepth();
+                message = alist.get(i).getLocation() + "on " + alist.get(i).getDate();
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Deepest Earthquake")
+                .setMessage("The largest earthquake was one of Depth: " + temp + "km at " + message)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }
