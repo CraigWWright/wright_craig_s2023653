@@ -28,7 +28,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,7 +61,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     LinkedList <EarthquakeClass> alist;
     private ListView listView;
     private Button searchDateButton;
-    private Button specificsearch;
+    private Button specificsearchButton;
+    private Button closestNorthenButton;
+    private Button closestSouthernButton;
+    private Button closestEasternButton;
+    private Button closestWesternButton;
     private Button largestButton;
     private Button deepestButton;
 
@@ -85,8 +88,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         searchDateButton = (Button) findViewById(R.id.searchDateButton);
         searchDateButton.setOnClickListener(this);
 
-        specificsearch = (Button) findViewById(R.id.specificSearch);
-        specificsearch.setOnClickListener(this);
+        specificsearchButton = (Button) findViewById(R.id.specificSearch);
+        specificsearchButton.setOnClickListener(this);
+
+        closestNorthenButton = (Button) findViewById(R.id.northSearchButton);
+        closestNorthenButton.setOnClickListener(this);
+
+        closestSouthernButton = (Button) findViewById(R.id.southSearchButton);
+        closestSouthernButton.setOnClickListener(this);
+
+        closestEasternButton = (Button) findViewById(R.id.eastSearchButton);
+        closestEasternButton.setOnClickListener(this);
+
+        closestWesternButton = (Button) findViewById(R.id.westSearchButton);
+        closestWesternButton.setOnClickListener(this);
 
         largestButton = (Button) findViewById(R.id.largestButton);
         largestButton.setOnClickListener(this);
@@ -121,9 +136,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         if (aview==searchDateButton) {
             searchDate();
         }
-        if (aview==specificsearch) {
+        if (aview==specificsearchButton) {
             specificSearch();
             Log.e("TEST", "Method called");
+        }
+        if (aview==closestNorthenButton) {
+            findClosestNorthen();
+        }
+        if (aview==closestSouthernButton) {
+            findClosestSouthern();
+        }
+        if (aview==closestEasternButton) {
+            findClosestEastern();
+        }
+        if (aview==closestWesternButton) {
+            findClosestWestern();
         }
         if (aview==largestButton) {
             findLargestEarthquake();
@@ -177,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 {
                     if (lineCount>=13) {
                         result = result + inputLine;
-                        //Log.e("TEST", inputLine);
                     }
                     lineCount++;
 
@@ -287,14 +313,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                                 {
                                                     String temp = xpp.nextText();
                                                     Log.e("MyTag", "Latitude is " + temp);
-                                                    earthquake.setLatitude(temp);
+                                                    earthquake.setLatitude(Double.valueOf(temp));
                                                 }
                                                 else
                                                     if (xpp.getName().equalsIgnoreCase("long"))
                                                     {
                                                         String temp = xpp.nextText();
                                                         Log.e("MyTag", "Longitude is " + temp);
-                                                        earthquake.setLongitude(temp);
+                                                        earthquake.setLongitude(Double.valueOf(temp));
                                                     }
                     }
                     else
@@ -452,6 +478,102 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             }
         });
 
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void findClosestNorthen() {
+        //Latitude of GCU
+        double glasgowLat = 55.86683265763648;
+        double temp = 90;
+        String message = "";
+        for (int i=0; i < alist.size(); i++) {
+            if (alist.get(i).getLatitude() > glasgowLat && alist.get(i).getLatitude() < temp) {
+                message = "The closest earthquake north of Glasgow was at " + alist.get(i).getLocation();
+                temp = alist.get(i).getLatitude();
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Closest Earthquake North of Glasgow")
+                .setMessage(message)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void findClosestSouthern() {
+        //Latitude of GCU
+        double glasgowLat = 55.86683265763648;
+        double temp = -90;
+        String message = "";
+        for (int i=0; i < alist.size(); i++) {
+            if (alist.get(i).getLatitude() < glasgowLat && alist.get(i).getLatitude() > temp) {
+                message = "The closest earthquake south of Glasgow was at " + alist.get(i).getLocation();
+                temp = alist.get(i).getLatitude();
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Closest Earthquake South of Glasgow")
+                .setMessage(message)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void findClosestEastern() {
+        //Longitude of GCU
+        double glasgowLong = -4.2499387518176865;
+        double temp = 20;
+        String message = "";
+        for (int i=0; i < alist.size(); i++) {
+            if (alist.get(i).getLongitude() > glasgowLong && alist.get(i).getLongitude() < temp) {
+                message = "The closest earthquake east of Glasgow was at " + alist.get(i).getLocation();
+                temp = alist.get(i).getLongitude();
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Closest Earthquake East of Glasgow")
+                .setMessage(message)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void findClosestWestern() {
+        //Longitude of GCU
+        double glasgowLong = -4.2499387518176865;
+        double temp = -20;
+        String message = "";
+        for (int i=0; i < alist.size(); i++) {
+            if (alist.get(i).getLongitude() < glasgowLong && alist.get(i).getLongitude() > temp) {
+                message = "The closest earthquake east of Glasgow was at " + alist.get(i).getLocation();
+                temp = alist.get(i).getLongitude();
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Closest Earthquake East of Glasgow")
+                .setMessage(message)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
         AlertDialog dialog = builder.create();
         dialog.show();
     }

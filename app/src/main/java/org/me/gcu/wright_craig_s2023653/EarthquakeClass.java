@@ -10,8 +10,8 @@ public class EarthquakeClass {
     private String pubDate;
     private String formattedDate;
     private String category;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
     private int depth;
     private double magnitude;
 
@@ -23,13 +23,13 @@ public class EarthquakeClass {
         pubDate = "";
         formattedDate = "";
         category = "";
-        latitude = "";
-        longitude = "";
+        latitude = 0;
+        longitude = 0;
         depth = 0;
         magnitude = 0;
     }
 
-    public EarthquakeClass(String aTitle, String aLocation, String aDescription, String aLink, String aPubDate, String aDate, String aCategory, String aLatitude, String aLongitude, int aDepth, double aMagnitude) {
+    public EarthquakeClass(String aTitle, String aLocation, String aDescription, String aLink, String aPubDate, String aDate, String aCategory, Double aLatitude, Double aLongitude, int aDepth, double aMagnitude) {
         title = aTitle;
         location = aLocation;
         description = aDescription;
@@ -70,13 +70,13 @@ public class EarthquakeClass {
 
     public void setCategory(String aCategory) {category = aCategory;}
 
-    public String getLatitude() {return latitude;}
+    public Double getLatitude() {return latitude;}
 
-    public void setLatitude(String aLatitude) {latitude = aLatitude;}
+    public void setLatitude(Double aLatitude) {latitude = aLatitude;}
 
-    public String getLongitude() {return longitude;}
+    public Double getLongitude() {return longitude;}
 
-    public void setLongitude(String aLongitude) {longitude = aLongitude;}
+    public void setLongitude(Double aLongitude) {longitude = aLongitude;}
 
     public int getDepth() {return depth;}
 
