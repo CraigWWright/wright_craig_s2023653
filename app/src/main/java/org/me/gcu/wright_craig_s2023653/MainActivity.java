@@ -398,7 +398,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getMagnitude() > temp) {
                 temp = alist.get(i).getMagnitude();
-                message = alist.get(i).getLocation() + "on " + alist.get(i).getDate();
+                message = "The largest earthquake was one of Magnitude: " + temp + " at " + message + alist.get(i).getLocation() + "on " + alist.get(i).getDate() + ".\n \n";
+            }
+            else if (alist.get(i).getMagnitude() == temp) {
+                message = message + "The largest earthquake was one of Magnitude: " + temp + " at " + message + alist.get(i).getLocation() + "on " + alist.get(i).getDate() + ".\n \n";
             }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -418,14 +421,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         int temp = 0;
         String message = "";
         for (int i=0; i < alist.size(); i++) {
-            if (alist.get(i).getMagnitude() > temp) {
+            if (alist.get(i).getDepth() > temp) {
                 temp = alist.get(i).getDepth();
-                message = alist.get(i).getLocation() + "on " + alist.get(i).getDate();
+                message = "The largest earthquake was one of Depth: " + temp + "km at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate() + ". \n \n";
+            }
+            else if (alist.get(i).getDepth() == temp) {
+                message = message + "The largest earthquake was one of Depth: " + temp + "km at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate() + ". \n \n";
             }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Deepest Earthquake")
-                .setMessage("The largest earthquake was one of Depth: " + temp + "km at " + message)
+                .setMessage(message)
                 .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
