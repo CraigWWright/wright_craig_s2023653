@@ -40,7 +40,6 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -54,7 +53,8 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener, AdapterView.OnItemClickListener
 {
-    private TextView rawDataDisplay;
+    //rawDataDisplay no longer used
+    //private TextView rawDataDisplay;
     private Button startButton;
     private String result;
     private String url1="";
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     LinkedList <EarthquakeClass> alist;
     private ListView listView;
     private Button searchDateButton;
+    private Button specificsearch;
     private Button largestButton;
     private Button deepestButton;
 
@@ -83,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         searchDateButton = (Button) findViewById(R.id.searchDateButton);
         searchDateButton.setOnClickListener(this);
+
+        specificsearch = (Button) findViewById(R.id.specificSearch);
+        specificsearch.setOnClickListener(this);
 
         largestButton = (Button) findViewById(R.id.largestButton);
         largestButton.setOnClickListener(this);
@@ -116,6 +120,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
         if (aview==searchDateButton) {
             searchDate();
+        }
+        if (aview==specificsearch) {
+            specificSearch();
+            Log.e("TEST", "Method called");
         }
         if (aview==largestButton) {
             findLargestEarthquake();
@@ -390,6 +398,62 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         AlertDialog dialog = builder.create();
         dialog.show();
 
+    }
+
+    public void specificSearch() {
+        Log.e("TEST", "In method");
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Search");
+
+        // Inflate the layout for the dialog box
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_search_specific, null);
+        builder.setView(dialogView);
+
+        EditText date = dialogView.findViewById(R.id.edit_text_date);
+        EditText location = dialogView.findViewById(R.id.edit_text_location);
+
+        builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String dateQuery = date.getText().toString();
+                String locationQuery = location.getText().toString();
+                //locationQuery = locationQuery.toUpperCase();
+                String message = "";
+                int counter = 0;
+                for (int j=0; j < alist.size(); j++) {
+                    if ((dateQuery.equals(alist.get(j).getDate()) && alist.get(j).getLocation().contains(locationQuery))){
+                        message = message + " " + alist.get(j).toString() + " \n \n";
+                        counter++;
+                    }
+                    if (counter==0) {
+                        message = "No results found";
+                    }
+                }
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                builder1.setTitle("Search results")
+                        .setMessage(message)
+                        .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                AlertDialog dialog1 = builder1.create();
+                dialog1.show();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle cancel button click
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void findLargestEarthquake() {
