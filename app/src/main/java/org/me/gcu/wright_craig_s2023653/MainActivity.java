@@ -19,6 +19,7 @@ package org.me.gcu.wright_craig_s2023653;
 //import android.support.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,11 +112,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     public void onItemClick(AdapterView<?> parenr, View view, int position, long id) {
-        for (int i = 0; i < alist.size(); i++) {
-            if (position == i) {
+                String message = alist.get(position).detailedView();
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(alist.get(i).detailedView())
-                        .setTitle("Earthquake Details")
+                builder.setMessage(message)
+                        .setTitle("Earthquake Detail")
                         .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -124,8 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                         });
                 AlertDialog dialog = builder.create();
                 dialog.show();
-            }
-        }
+
     }
 
     public void onClick(View aview)
@@ -489,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         String message = "";
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getLatitude() > glasgowLat && alist.get(i).getLatitude() < temp) {
-                message = "The closest earthquake north of Glasgow was at " + alist.get(i).getLocation();
+                message = "The closest earthquake north of Glasgow was at " + alist.get(i).getLocation()+ " on " + alist.get(i).getDate();
                 temp = alist.get(i).getLatitude();
             }
         }
@@ -513,7 +512,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         String message = "";
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getLatitude() < glasgowLat && alist.get(i).getLatitude() > temp) {
-                message = "The closest earthquake south of Glasgow was at " + alist.get(i).getLocation();
+                message = "The closest earthquake south of Glasgow was at " + alist.get(i).getLocation()+ " on " + alist.get(i).getDate();
                 temp = alist.get(i).getLatitude();
             }
         }
@@ -537,7 +536,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         String message = "";
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getLongitude() > glasgowLong && alist.get(i).getLongitude() < temp) {
-                message = "The closest earthquake east of Glasgow was at " + alist.get(i).getLocation();
+                message = "The closest earthquake east of Glasgow was at " + alist.get(i).getLocation()+ " on " + alist.get(i).getDate();
                 temp = alist.get(i).getLongitude();
             }
         }
@@ -561,12 +560,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         String message = "";
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getLongitude() < glasgowLong && alist.get(i).getLongitude() > temp) {
-                message = "The closest earthquake east of Glasgow was at " + alist.get(i).getLocation();
+                message = "The closest earthquake west of Glasgow was at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate();
                 temp = alist.get(i).getLongitude();
             }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Closest Earthquake East of Glasgow")
+        builder.setTitle("Closest Earthquake West of Glasgow")
                 .setMessage(message)
                 .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                     @Override
@@ -584,15 +583,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getMagnitude() > temp) {
                 temp = alist.get(i).getMagnitude();
-                message = "The largest earthquake was one of Magnitude: " + temp + " at " + message + alist.get(i).getLocation() + "on " + alist.get(i).getDate() + ".\n \n";
+                message = "The largest earthquake was one of Magnitude: " + temp + " at " + alist.get(i).getLocation() + "on " + alist.get(i).getDate() + ".\n \n";
             }
             else if (alist.get(i).getMagnitude() == temp) {
-                message = message + "The largest earthquake was one of Magnitude: " + temp + " at " + message + alist.get(i).getLocation() + "on " + alist.get(i).getDate() + ".\n \n";
+                message = message + "The largest earthquake was one of Magnitude: " + temp + " at " + alist.get(i).getLocation() + "on " + alist.get(i).getDate() + ".\n \n";
             }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Largest Earthquake")
-                .setMessage("The largest earthquake was one of Magnitude: " + temp + " at " + message)
+                .setMessage(message)
                 .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -609,10 +608,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getDepth() > temp) {
                 temp = alist.get(i).getDepth();
-                message = "The largest earthquake was one of Depth: " + temp + "km at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate() + ". \n \n";
+                message = "The deepest earthquake was one of Depth: " + temp + "km at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate() + ". \n \n";
             }
             else if (alist.get(i).getDepth() == temp) {
-                message = message + "The largest earthquake was one of Depth: " + temp + "km at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate() + ". \n \n";
+                message = message + "The deepest earthquake was one of Depth: " + temp + "km at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate() + ". \n \n";
             }
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);

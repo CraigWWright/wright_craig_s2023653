@@ -95,7 +95,7 @@ public class EarthquakeClass {
         String temp = "";
 
         //temp = title + " " + description + " " + link + " " + pubDate  + " " + category + " " + latitude + " " + longitude;
-        temp = "Title: " + title  + "\n" + "Description: " + description  + "\n" + "Link: " + link  + "\n" + "Date Published: " + pubDate  + "\n" + "Category: " + category  + "\n" + "Latitude: " + latitude  + "\n" + "Longitude: " + longitude;
+        temp = "Title: " + title  + "\n\n" + "Description: " + description  + "\n\n" + "Link: " + link  + "\n\n" + "Date Published: " + pubDate  + "\n\n" + "Category: " + category  + "\n\n" + "Latitude: " + latitude  + "\n\n" + "Longitude: " + longitude + "\n\n" + "Magnitude: " + magnitude;
 
         return temp;
     }
