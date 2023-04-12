@@ -17,9 +17,14 @@ package org.me.gcu.wright_craig_s2023653;
 
 //import android.support.v7.app.AppCompatActivity;
 //import android.support.app.AppCompatActivity;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -384,19 +389,39 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         EditText search = dialogView.findViewById(R.id.edit_text_date);
         builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String query = search.getText().toString();
-                String output ="";
-                int counter =  0;
-                for (int j=0; j < alist.size(); j++) {
+                String output = "";
+                int magnitudeColour = R.color.black;
+                int counter = 0;
+                SpannableString spannableString = null;
+                for (int j = 0; j < alist.size(); j++) {
                     if (query.equals(alist.get(j).getDate())) {
-                        output = output + alist.get(j).toString() + " \n \n";
+                        double magnitude = alist.get(j).getMagnitude();
+                        if (alist.get(j).getMagnitude() <= 1) {
+                            magnitudeColour = getResources().getColor(R.color.green);
+                        } else if (alist.get(j).getMagnitude() > 1 && alist.get(j).getMagnitude() <= 2) {
+                            magnitudeColour = getResources().getColor(R.color.yellow);
+                        } else if (alist.get(j).getMagnitude() > 2 && alist.get(j).getMagnitude() <= 3) {
+                            magnitudeColour = getResources().getColor(R.color.orange);
+                        } else if (alist.get(j).getMagnitude() > 3) {
+                            magnitudeColour = getResources().getColor(R.color.red);
+                        }
+
+                        spannableString = new SpannableString(alist.get(j).toString());
+                        int start = spannableString.toString().indexOf("M ");
+                        int end = start + String.valueOf(magnitude).length() + 3;
+                        spannableString.setSpan(new ForegroundColorSpan(magnitudeColour), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                        output += spannableString;
                         counter++;
                     }
                 }
-                if (counter==0) {
+                if (counter == 0) {
                     output = "There was no earthquakes on this day";
+                    //spannableString = SpannableString.valueOf("There was no earthquakes on this day");
                 }
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                 builder1.setTitle("Search results")
@@ -485,13 +510,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         //Latitude of GCU
         double glasgowLat = 55.86683265763648;
         double temp = 90;
+        int index = 0;
         String message = "";
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getLatitude() > glasgowLat && alist.get(i).getLatitude() < temp) {
-                message = "The closest earthquake north of Glasgow was at " + alist.get(i).getLocation()+ " on " + alist.get(i).getDate();
                 temp = alist.get(i).getLatitude();
+                index = i;
             }
         }
+
+        double distance = distanceToGlasgow(alist.get(index).getLatitude(), alist.get(index).getLongitude());
+        distance = Math.round(distance);
+        message = "The closest earthquake north of Glasgow was " + distance + " km away at " + alist.get(index).getLocation()+ " on " + alist.get(index).getDate();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Closest Earthquake North of Glasgow")
                 .setMessage(message)
@@ -509,13 +540,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         //Latitude of GCU
         double glasgowLat = 55.86683265763648;
         double temp = -90;
+        int index = 0;
         String message = "";
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getLatitude() < glasgowLat && alist.get(i).getLatitude() > temp) {
-                message = "The closest earthquake south of Glasgow was at " + alist.get(i).getLocation()+ " on " + alist.get(i).getDate();
                 temp = alist.get(i).getLatitude();
+                index = i;
             }
         }
+
+        double distance = distanceToGlasgow(alist.get(index).getLatitude(), alist.get(index).getLongitude());
+        distance = Math.round(distance);
+        message = "The closest earthquake south of Glasgow was " + distance + " km away at " + alist.get(index).getLocation()+ " on " + alist.get(index).getDate();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Closest Earthquake South of Glasgow")
                 .setMessage(message)
@@ -533,13 +570,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         //Longitude of GCU
         double glasgowLong = -4.2499387518176865;
         double temp = 20;
+        int index = 0;
         String message = "";
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getLongitude() > glasgowLong && alist.get(i).getLongitude() < temp) {
-                message = "The closest earthquake east of Glasgow was at " + alist.get(i).getLocation()+ " on " + alist.get(i).getDate();
                 temp = alist.get(i).getLongitude();
+                index = i;
             }
         }
+
+        double distance = distanceToGlasgow(alist.get(index).getLatitude(), alist.get(index).getLongitude());
+        distance = Math.round(distance);
+        message = "The closest earthquake east of Glasgow was " + distance + " km away at " + alist.get(index).getLocation()+ " on " + alist.get(index).getDate();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Closest Earthquake East of Glasgow")
                 .setMessage(message)
@@ -557,13 +600,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         //Longitude of GCU
         double glasgowLong = -4.2499387518176865;
         double temp = -20;
+        int index = 0;
         String message = "";
         for (int i=0; i < alist.size(); i++) {
             if (alist.get(i).getLongitude() < glasgowLong && alist.get(i).getLongitude() > temp) {
-                message = "The closest earthquake west of Glasgow was at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate();
                 temp = alist.get(i).getLongitude();
+                index = i;
             }
         }
+
+        double distance = distanceToGlasgow(alist.get(index).getLatitude(), alist.get(index).getLongitude());
+        distance = Math.round(distance);
+        message = "The closest earthquake west of Glasgow was " + distance + " km away at " + alist.get(index).getLocation()+ " on " + alist.get(index).getDate();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Closest Earthquake West of Glasgow")
                 .setMessage(message)
@@ -575,6 +624,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public static double distanceToGlasgow(double lat1, double lon1) {
+        double glasgowLat = 55.86683265763648;
+        double glasgowLon = -4.2499387518176865;
+        int R = 6371; // Radius of the earth in km
+        double dLat = Math.toRadians(glasgowLat-lat1);
+        double dLon = Math.toRadians(glasgowLon-lon1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(glasgowLat)) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double distance = R * c; // Distance in km
+        return distance;
     }
 
     public void findLargestEarthquake() {
