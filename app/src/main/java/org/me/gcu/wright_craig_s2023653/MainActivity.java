@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private Button closestWesternButton;
     private Button largestButton;
     private Button deepestButton;
+    private Button shallowestButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -114,6 +115,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         deepestButton = (Button) findViewById(R.id.deepestButton);
         deepestButton.setOnClickListener(this);
+
+        shallowestButton = (Button) findViewById(R.id.shallowestButton);
+        shallowestButton.setOnClickListener(this);
     }
 
     public void onItemClick(AdapterView<?> parenr, View view, int position, long id) {
@@ -161,6 +165,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
         if (aview==deepestButton) {
             findDeepestEarthquake();
+        }
+        if (aview==shallowestButton) {
+            finsShallowestEarthquake();
         }
     }
 
@@ -679,6 +686,31 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Deepest Earthquake")
+                .setMessage(message)
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void finsShallowestEarthquake() {
+        int temp = 100;
+        String message = "";
+        for (int i=0; i < alist.size(); i++) {
+            if (alist.get(i).getDepth() < temp) {
+                temp = alist.get(i).getDepth();
+                message = "The shallowest earthquake was one of Depth: " + temp + "km at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate() + ". \n \n";
+            }
+            else if (alist.get(i).getDepth() == temp) {
+                message = message + "The shallowest earthquake was one of Depth: " + temp + "km at " + alist.get(i).getLocation() + " on " + alist.get(i).getDate() + ". \n \n";
+            }
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Shallowest Earthquake")
                 .setMessage(message)
                 .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                     @Override

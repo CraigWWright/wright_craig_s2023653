@@ -44,8 +44,9 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <Button android:id="@+id/largestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Largest" android:layout_marginStart="8dp" android:layout_marginEnd="4dp"/>
-            <Button android:id="@+id/deepestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Deepest" android:layout_marginStart="4dp" android:layout_marginEnd="8dp"/>
+            <Button android:id="@+id/largestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Largest" android:layout_marginStart="8dp" android:layout_marginEnd="4dp" android:textSize="12dp"/>
+            <Button android:id="@+id/deepestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Deepest" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:textSize="12dp"/>
+            <Button android:id="@+id/shallowestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Shallowest" android:layout_marginStart="4dp" android:layout_marginEnd="8dp" android:textSize="12dp"/>
         </LinearLayout>
         </LinearLayout>
 
