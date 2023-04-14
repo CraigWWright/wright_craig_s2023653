@@ -2,7 +2,13 @@ package org.me.gcu.wright_craig_s2023653;
 
 import java.util.Date;
 
+
+// Name                 Craig Wright
+// Student ID           s2023653
+// Programme of Study   Computing
+
 public class EarthquakeClass {
+    //Initialise variables
     private String title;
     private String location;
     private String description;
@@ -15,6 +21,7 @@ public class EarthquakeClass {
     private int depth;
     private double magnitude;
 
+    //constructors
     public EarthquakeClass() {
         title = "";
         location = "";
@@ -43,6 +50,8 @@ public class EarthquakeClass {
         magnitude = aMagnitude;
     }
 
+
+    //getters and setters
     public String getTitle() {return title;}
 
     public void setTitle(String aTitle) {title = aTitle;}
@@ -86,7 +95,7 @@ public class EarthquakeClass {
 
     public void setMagnitude(double aMagnitude) {magnitude = aMagnitude;}
 
-
+    //toString and detailed view methods
     public String toString(){
         return title;
     }
@@ -95,7 +104,7 @@ public class EarthquakeClass {
         String temp = "";
 
         //temp = title + " " + description + " " + link + " " + pubDate  + " " + category + " " + latitude + " " + longitude;
-        temp = "Title: " + title  + "\n\n" + "Description: " + description  + "\n\n" + "Link: " + link  + "\n\n" + "Date Published: " + pubDate  + "\n\n" + "Category: " + category  + "\n\n" + "Latitude: " + latitude  + "\n\n" + "Longitude: " + longitude + "\n\n" + "Magnitude: " + magnitude;
+        temp = "Title: " + title  + "\n\n" + "Description: " + description  + "\n\n" + "Link: " + link  + "\n\n" + "Date Published: " + pubDate  + "\n\n" + "Category: " + category  + "\n\n" + "Latitude: " + latitude  + "\n\n" + "Longitude: " + longitude;
 
         return temp;
     }

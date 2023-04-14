@@ -1,11 +1,19 @@
 <!--  MPD XML Starter code Semester B Session 2018 2019  -->
+
+<!-- Name                   Craig Wright
+     Student ID             s2023653
+     Programme of Study     Computing
+ -->
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent">
+    <!-- Linear layout for whole display -->
     <LinearLayout
         android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
         <TextView android:id="@+id/salutation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:text="Welcome to Mobile Platform Development"/>
         <Button android:id="@+id/startButton" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Press to show earthquakes"/>
         <TextView android:id="@+id/acknowledgement" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:text="Contains British Geological Survey materials ©NERC 2019"/>
-        <!--<TextView android:id="@+id/rawDataDisplay" android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="20sp" android:text="Raw Data is Displayed here"/> -->
+
+        <!-- List View for displaying all earthquakes -->
         <ListView
             android:id="@+id/list"
             android:layout_width="wrap_content"
@@ -13,6 +21,7 @@
             android:layout_below="@+id/acknowledgement"
             android:layout_centerHorizontal="true" />
 
+        <!-- Horizontal linear layout for buttons to be placed side by side -->
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
@@ -20,10 +29,12 @@
             android:orientation="horizontal"
             android:gravity="center">
 
+            <!-- Buttons for searching a date and date and location -->
             <Button android:id="@+id/searchDateButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Search Date" android:layout_marginStart="8dp" android:layout_marginEnd="4dp"/>
             <Button android:id="@+id/specificSearch" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Search Specfic Earthquake" android:layout_marginStart="4dp" android:layout_marginEnd="8dp"/>
         </LinearLayout>
 
+        <!-- Horizontal linear layout for buttons to be placed side by side -->
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
@@ -31,12 +42,14 @@
             android:orientation="horizontal"
             android:gravity="center">
 
+            <!-- Buttons for displaying closest North, South, East and West Earthquakes -->
             <Button android:id="@+id/northSearchButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Northerly" android:layout_marginStart="8dp" android:layout_marginEnd="4dp" android:textSize="11dp" android:padding="4dp"/>
             <Button android:id="@+id/southSearchButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Southernly" android:layout_marginStart="8dp" android:layout_marginEnd="4dp" android:textSize="11dp" android:padding="4dp"/>
             <Button android:id="@+id/eastSearchButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Easterly" android:layout_marginStart="8dp" android:layout_marginEnd="4dp" android:textSize="11dp" android:padding="4dp"/>
             <Button android:id="@+id/westSearchButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Westerly" android:layout_marginStart="8dp" android:layout_marginEnd="4dp" android:textSize="11dp" android:padding="4dp"/>
         </LinearLayout>
 
+        <!-- Horizontal linear layout for buttons to be placed side by side -->
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
@@ -44,6 +57,7 @@
             android:orientation="horizontal"
             android:gravity="center">
 
+            <!-- Buttons for largest, deepest and shallowest earthquakes -->
             <Button android:id="@+id/largestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Largest" android:layout_marginStart="8dp" android:layout_marginEnd="4dp" android:textSize="12dp"/>
             <Button android:id="@+id/deepestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Deepest" android:layout_marginStart="4dp" android:layout_marginEnd="4dp" android:textSize="12dp"/>
             <Button android:id="@+id/shallowestButton" android:layout_width="0dp"  android:layout_height="75dp" android:layout_weight="1" android:text="Shallowest" android:layout_marginStart="4dp" android:layout_marginEnd="8dp" android:textSize="12dp"/>
