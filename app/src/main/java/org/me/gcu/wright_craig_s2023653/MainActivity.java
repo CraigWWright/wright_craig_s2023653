@@ -397,7 +397,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String query = search.getText().toString();
-                String message = "";
+                String message;
+                int magnitudeColour = R.color.black;
+                SpannableString spannableString = null;
+                SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
                 //checks date is in correct format
                 if (query.matches(pattern)) {
 
@@ -405,21 +408,41 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     //compare dates to user input
                     for (int j = 0; j < alist.size(); j++) {
                         if (query.equals(alist.get(j).getDate())) {
-                            //add to message deals with multiple earthquakes
-                            message = message + alist.get(j).toString() + "\n\n";
+                            message = alist.get(j).toString()  + "\n"  + "\n";
+
+                            //check magnitude and set colour as appropriate
+                            if (alist.get(j).getMagnitude() <= 1) {
+                                magnitudeColour = getResources().getColor(R.color.green);
+                            } else if (alist.get(j).getMagnitude() > 1 && alist.get(j).getMagnitude() <= 2) {
+                                magnitudeColour = getResources().getColor(R.color.yellow);
+                            } else if (alist.get(j).getMagnitude() > 2 && alist.get(j).getMagnitude() <= 3) {
+                                magnitudeColour = getResources().getColor(R.color.orange);
+                            } else if (alist.get(j).getMagnitude() > 3) {
+                                magnitudeColour = getResources().getColor(R.color.red);
+                            }
+
+                            //set text colour to the Magnitude part of the view
+                            spannableString = new SpannableString(message);
+                            int start = spannableString.toString().indexOf("M ");
+                            int end = start + 6;
+                            spannableString.setSpan(new ForegroundColorSpan(magnitudeColour), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                            stringBuilder.append(spannableString);
+
+                            //message = message + alist.get(j).toString() + "\n\n";
                             counter++;
                         }
                     }
                     if (counter == 0) {
-                        message = "There was no earthquakes on this day";
+                        stringBuilder = SpannableStringBuilder.valueOf("There was no earthquakes on this day");
                     }
                 } else {
-                    message = "Please enter the date in the correct format 'DD/MM/YYYY'";
+                    stringBuilder = SpannableStringBuilder.valueOf("Please enter the date in the correct format 'DD/MM/YYYY'");
                 }
                     //create dialog box for search query results
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                     builder1.setTitle("Search results")
-                            .setMessage(message)
+                            .setMessage(stringBuilder)
                             .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -451,6 +474,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         //correct regex for date input
         String pattern = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
 
+
         //create dialog box allowing user to enter date and location
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Search");
@@ -465,8 +489,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         EditText location = dialogView.findViewById(R.id.edit_text_location);
 
         builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                int magnitudeColour = R.color.black;
+                SpannableString spannableString = null;
+                SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
                 String dateQuery = date.getText().toString();
                 String locationQuery = location.getText().toString().toUpperCase();
                 String message = "";
@@ -474,28 +502,48 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
                 //checks that entries haven't been left blank
                 if (dateQuery.equals("") || locationQuery.equals("")) {
-                    message = "Please make sure to enter both the date and a location";
+                    stringBuilder = SpannableStringBuilder.valueOf("Please make sure to enter both the date and a location");
                     counter++;
                     //checks date is in correct format
                 } else if (!dateQuery.matches(pattern)) {
-                    message = "Please enter the date in the correct format 'DD/MM/YYYY'";
+                    stringBuilder = SpannableStringBuilder.valueOf("Please enter the date in the correct format 'DD/MM/YYYY'");
                     counter++;
                 } else {
                     for (int j = 0; j < alist.size(); j++) {
                         //compare dates and location to user input
                         if ((dateQuery.equals(alist.get(j).getDate()) && alist.get(j).getLocation().contains(locationQuery))) {
-                            //add to message to deal with multiple earthquakes
-                            message = message + " " + alist.get(j).toString() + " \n \n";
+                            message = alist.get(j).toString()  + "\n"  + "\n";
+
+                            //check magnitude and set colour as appropriate
+                            if (alist.get(j).getMagnitude() <= 1) {
+                                magnitudeColour = getResources().getColor(R.color.green);
+                            } else if (alist.get(j).getMagnitude() > 1 && alist.get(j).getMagnitude() <= 2) {
+                                magnitudeColour = getResources().getColor(R.color.yellow);
+                            } else if (alist.get(j).getMagnitude() > 2 && alist.get(j).getMagnitude() <= 3) {
+                                magnitudeColour = getResources().getColor(R.color.orange);
+                            } else if (alist.get(j).getMagnitude() > 3) {
+                                magnitudeColour = getResources().getColor(R.color.red);
+                            }
+
+                            //set text colour to the Magnitude part of the view
+                            spannableString = new SpannableString(message);
+                            int start = spannableString.toString().indexOf("M ");
+                            int end = start + 6;
+                            spannableString.setSpan(new ForegroundColorSpan(magnitudeColour), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                            stringBuilder.append(spannableString);
+
+                            //message = message + alist.get(j).toString() + "\n\n";
                             counter++;
                         }
                     }
                 }
                 if (counter == 0) {
-                    message = "No earthquakes on this date at this location";
+                    stringBuilder = SpannableStringBuilder.valueOf("No earthquakes on this date at this location");
                 }
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                 builder1.setTitle("Search results")
-                        .setMessage(message)
+                        .setMessage(stringBuilder)
                         .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
