@@ -7,7 +7,10 @@ package org.me.gcu.wright_craig_s2023653;
 //imports
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         // Set up the raw links to the graphical components
         startButton = (Button) findViewById(R.id.startButton);
         startButton.setOnClickListener(this);
@@ -157,7 +162,24 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     public void onClick(View aview) {
         if (aview == startButton) {
-            startProgress();
+            ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+                startProgress();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Warning")
+                        .setMessage("Your device is not connected to the internet. Please connect before continuing")
+                        .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
         }
         if (aview == searchDateButton) {
             searchDate();
@@ -356,6 +378,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     public void searchDate() {
         //Method for searching for earthquakes on a date
 
+        //correct regex for date input
+        String pattern = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
+
         //create dialog box allowing user to enter date
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Search");
@@ -373,31 +398,38 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             public void onClick(DialogInterface dialogInterface, int i) {
                 String query = search.getText().toString();
                 String message = "";
-                int counter = 0;
-                //compare dates to user input
-                for (int j = 0; j < alist.size(); j++) {
-                    if (query.equals(alist.get(j).getDate())) {
-                        //add to message deals with multiple earthquakes
-                        message = message + alist.get(j).toString() + "\n\n";
-                        counter++;
+                //checks date is in correct format
+                if (query.matches(pattern)) {
+
+                    int counter = 0;
+                    //compare dates to user input
+                    for (int j = 0; j < alist.size(); j++) {
+                        if (query.equals(alist.get(j).getDate())) {
+                            //add to message deals with multiple earthquakes
+                            message = message + alist.get(j).toString() + "\n\n";
+                            counter++;
+                        }
                     }
+                    if (counter == 0) {
+                        message = "There was no earthquakes on this day";
+                    }
+                } else {
+                    message = "Please enter the date in the correct format 'DD/MM/YYYY'";
                 }
-                if (counter == 0) {
-                    message = "There was no earthquakes on this day";
+                    //create dialog box for search query results
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                    builder1.setTitle("Search results")
+                            .setMessage(message)
+                            .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    AlertDialog dialog1 = builder1.create();
+                    dialog1.show();
                 }
-                //create dialog box for search query results
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-                builder1.setTitle("Search results")
-                        .setMessage(message)
-                        .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-                AlertDialog dialog1 = builder1.create();
-                dialog1.show();
-            }
+
         });
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -416,6 +448,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     public void specificSearch() {
         //Method for searching for an earthquake on a specific date and location
 
+        //correct regex for date input
+        String pattern = "^\\d{1,2}/\\d{1,2}/\\d{4}$";
+
         //create dialog box allowing user to enter date and location
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Search");
@@ -433,19 +468,30 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String dateQuery = date.getText().toString();
-                String locationQuery = location.getText().toString();
+                String locationQuery = location.getText().toString().toUpperCase();
                 String message = "";
                 int counter = 0;
-                for (int j = 0; j < alist.size(); j++) {
-                    //compare dates and location to user input
-                    if ((dateQuery.equals(alist.get(j).getDate()) && alist.get(j).getLocation().contains(locationQuery))) {
-                        //add to message to deal with multiple earthquakes
-                        message = message + " " + alist.get(j).toString() + " \n \n";
-                        counter++;
+
+                //checks that entries haven't been left blank
+                if (dateQuery.equals("") || locationQuery.equals("")) {
+                    message = "Please make sure to enter both the date and a location";
+                    counter++;
+                    //checks date is in correct format
+                } else if (!dateQuery.matches(pattern)) {
+                    message = "Please enter the date in the correct format 'DD/MM/YYYY'";
+                    counter++;
+                } else {
+                    for (int j = 0; j < alist.size(); j++) {
+                        //compare dates and location to user input
+                        if ((dateQuery.equals(alist.get(j).getDate()) && alist.get(j).getLocation().contains(locationQuery))) {
+                            //add to message to deal with multiple earthquakes
+                            message = message + " " + alist.get(j).toString() + " \n \n";
+                            counter++;
+                        }
                     }
-                    if (counter == 0) {
-                        message = "No results found";
-                    }
+                }
+                if (counter == 0) {
+                    message = "No earthquakes on this date at this location";
                 }
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                 builder1.setTitle("Search results")
