@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             // but we are just getting started !
 
 
-            MainActivity.this.runOnUiThread(new Runnable() {
+            listView.post(new Runnable() {
                 public void run() {
                     Log.d("UI thread", "I am the UI thread");
 
