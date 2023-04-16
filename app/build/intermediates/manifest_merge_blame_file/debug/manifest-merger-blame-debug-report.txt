@@ -1,0 +1,63 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.me.gcu.wright_craig_s2023653"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+8-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="32" />
+9-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+11-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:6:5-79
+11-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:6:22-76
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:28:5-67
+12-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:28:22-64
+13
+14    <application
+14-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:7:5-27:19
+15        android:allowBackup="true"
+15-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:9:9-35
+16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+16-->[androidx.core:core:1.5.0] C:\Users\craig\.gradle\caches\transforms-3\4cb2d3ae910a25e4d3b75b6b0d8d1b11\transformed\core-1.5.0\AndroidManifest.xml:24:18-86
+17        android:dataExtractionRules="@xml/data_extraction_rules"
+17-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:10:9-65
+18        android:debuggable="true"
+19        android:extractNativeLibs="false"
+20        android:fullBackupContent="@xml/backup_rules"
+20-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:11:9-54
+21        android:icon="@mipmap/ic_launcher"
+21-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:12:9-43
+22        android:label="@string/app_name"
+22-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:13:9-41
+23        android:roundIcon="@mipmap/ic_launcher_round"
+23-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:14:9-54
+24        android:supportsRtl="true"
+24-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:15:9-35
+25        android:theme="@style/Theme.Wright_craig_s2023653"
+25-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:16:9-59
+26        android:usesCleartextTraffic="true" >
+26-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:8:9-44
+27        <activity
+27-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:18:9-26:20
+28            android:name="org.me.gcu.wright_craig_s2023653.MainActivity"
+28-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:19:13-41
+29            android:exported="true" >
+29-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:20:13-36
+30            <intent-filter>
+30-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:21:13-25:29
+31                <action android:name="android.intent.action.MAIN" />
+31-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:22:17-69
+31-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:22:25-66
+32
+33                <category android:name="android.intent.category.LAUNCHER" />
+33-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:24:17-77
+33-->C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\main\AndroidManifest.xml:24:27-74
+34            </intent-filter>
+35        </activity>
+36    </application>
+37
+38</manifest>

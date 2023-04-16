@@ -1,0 +1,7 @@
+org.me.gcu.wright_craig_s2023653.test.app-androidTest-0 C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\build\generated\res\resValues\androidTest\debug
+org.me.gcu.wright_craig_s2023653.test.app-androidTest-1 C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\build\generated\res\rs\androidTest\debug
+org.me.gcu.wright_craig_s2023653.test.app-mergeDebugAndroidTestResources-2 C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+org.me.gcu.wright_craig_s2023653.test.app-mergeDebugAndroidTestResources-3 C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+org.me.gcu.wright_craig_s2023653.test.app-merged_res-4 C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\build\intermediates\merged_res\debugAndroidTest
+org.me.gcu.wright_craig_s2023653.test.app-androidTest-5 C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\androidTest\res
+org.me.gcu.wright_craig_s2023653.test.app-androidTestDebug-6 C:\Users\craig\AndroidStudioProjects\wright_craig_s2023653\app\src\androidTestDebug\res
